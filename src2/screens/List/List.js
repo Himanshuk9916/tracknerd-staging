@@ -4,6 +4,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./ListStyle";
 import ViewVehicle from "../../components/ViewVehicle/ViewVehicle";
+import {ListService} from "../../sevice/service"
 
 function List() {
   const [vehiclesOne, setVehiclesOne] = useState([]);
@@ -15,20 +16,7 @@ function List() {
   useLayoutEffect(() => {
     getToken();
     if (token) {
-      console.log('axios me', token);
-      axios
-        .get(`https://staging-api.tracknerd.io/v1/vehicle-groups/vehicles`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          setActivity(false)
-          console.log(res.data.data)
-          setVehiclesOne(res.data.data[0].vehicles);
-          setFilterData(res.data.data[0].vehicles);
-        })
-        .catch((err) => {
-          console.log('error', err)
-        })
+      ListService(token,setActivity,setFilterData,setVehiclesOne);
     }
   })
 

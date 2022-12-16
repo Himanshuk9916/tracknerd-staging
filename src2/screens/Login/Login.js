@@ -4,6 +4,7 @@ import axios from "axios";
 import { widthPercentageToDP, heightPercentageToDP, proportionedPixel } from "../../helpers/Style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./LoginStyle";
+import { LoginService } from "../../sevice/service";
 
 function Login({ navigation }) {
     const [email, setEmail] = React.useState('');
@@ -11,36 +12,38 @@ function Login({ navigation }) {
     const [token, setToken] = React.useState('');
     const [secureText, setSecureText] = React.useState(true);
 
-    const storeToken = async (token) => {
-        console.log('async me', token)
-        try {
-            await AsyncStorage.setItem("token", token);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const storeToken = async (token) => {
+    //     console.log('async me', token)
+    //     try {
+    //         await AsyncStorage.setItem("token", token);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
 
     const proceed = () => {
         console.log('clicked')
 
-        axios
-            .post('https://staging-api.tracknerd.io/v1/auth/login', {
-                username: email,
-                password: password
-            })
-            .then((res) => {
-                console.log('response', res.data)
-                console.log('token', res.data.token)
-                let token_pass = res.data.token;
-                console.log('finaltoken', token_pass)
-                setToken(token_pass);
-                storeToken(token_pass);
-                navigation.navigate('List')
-            })
-            .catch((err) => {
-                console.log('error', err)
-            })
+        // axios
+        //     .post('https://staging-api.tracknerd.io/v1/auth/login', {
+        //         username: email,
+        //         password: password
+        //     })
+        //     .then((res) => {
+        //         console.log('response', res.data)
+        //         console.log('token', res.data.token)
+        //         let token_pass = res.data.token;
+        //         console.log('finaltoken', token_pass)
+        //         setToken(token_pass);
+        //         storeToken(token_pass);
+        //         navigation.navigate('List')
+        //     })
+        //     .catch((err) => {
+        //         console.log('error', err)
+        //     })
+
+            LoginService(email,password,navigation)
 
     }
 
